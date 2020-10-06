@@ -1,5 +1,4 @@
 #include "test.h"
-#include "config_context.h"
 #include "exception.h"
 
 void MysqlClient::Initialize(){
