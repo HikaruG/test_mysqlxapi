@@ -17,7 +17,6 @@ RUN cmake --build .
 RUN cmake --build . --target install
 
 
-
 WORKDIR /
 RUN git clone https://github.com/HikaruG/test_mysqlxapi.git
 
