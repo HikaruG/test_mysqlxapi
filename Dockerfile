@@ -25,7 +25,7 @@ RUN git clone https://github.com/HikaruG/test_mysqlxapi.git
 WORKDIR /test_mysqlxapi
 RUN git submodule update --init --recursive
 RUN mkdir build && cd build && cmake ..
-RUN cd build && cmake -P cmake_install.cmake && ls
+RUN cd build && make
 
 WORKDIR /test_mysqlxapi
 ARG CACHE_DATE=2020-10-06
