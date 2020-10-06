@@ -6,7 +6,7 @@ project(test_mysql)
 add_subdirectory(third_party/easyloggingpp)
 list(APPEND COMMON_SOURCES ${Easyloggingpp_SOURCE_DIR}/src/easylogging++.cc)
 include_directories(${Easyloggingpp_SOURCE_DIR}/src)
-add_subdirectory(/usr/local/mysql/connector-c++-/include/mysqlx)
+add_subdirectory(/usr/local/mysql/connector-c++-/lib64/debug)
 list(APPEND COMMON_SOURCES /usr/local/mysql/connector-c++-/include/mysqlx/xdeevapi.h)
 include_directories(/usr/local/mysql/connector-c++-/include/)
 
