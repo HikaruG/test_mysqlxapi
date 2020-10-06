@@ -12,6 +12,6 @@ private:
   MysqlClient() = default;
   static MysqlClient* globalMysqlClient; //cant put the ** ?
   static mysqlx::Session* ClientSession_;//cant put the ** ?
-  static mysqlx::Schema* ClientScheme_;//cant put the ** ?
+  static mysqlx::Schema* ClientSchema_;//cant put the ** ?
   static mysqlx::Table& ClientTable_;
 };
