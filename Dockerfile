@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 
 
 WORKDIR /
-RUN git clone https://github.com/mysql/mysql-connector-cpp.git
+RUN git clone --depth 1 https://github.com/mysql/mysql-connector-cpp.git
 RUN mkdir -p mysql-connector-cpp/build
 
 WORKDIR /mysql-connector-cpp/build
@@ -19,7 +19,9 @@ RUN cmake --build . --target install
 
 WORKDIR /
 RUN git clone https://github.com/HikaruG/test_mysqlxapi.git
-RUN cd test_mysqlxapi/ && make
+
+WORKDIR /test_mysqlxapi
+RUN make
 
 WORKDIR /
 RUN rm -rf \
