@@ -15,7 +15,7 @@ WORKDIR /mysql-connector-cpp/build
 RUN cmake ..
 RUN cmake --build . --config Release
 RUN cmake --build . --target install --config Release
-RUN ls /usr/local/mysql/connector-c++-
+RUN ls /usr/local/mysql/connector-c++-/include
 RUN ls /usr/local/mysql
 
 WORKDIR /
