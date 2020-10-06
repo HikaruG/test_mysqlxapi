@@ -13,8 +13,8 @@ RUN mkdir -p mysql-connector-cpp/build
 
 WORKDIR /mysql-connector-cpp/build
 RUN cmake ..
-RUN cmake --build .
-RUN cmake --build . --target install
+RUN cmake --build . --config Release
+RUN cmake --build . --target install --config Release
 
 
 WORKDIR /
