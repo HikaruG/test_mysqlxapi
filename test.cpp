@@ -13,16 +13,18 @@ void MysqlClient::Initialize(){
     "3306",
     "neukind",
     "Neukind.jp");
-  if(newSession.existsInDatabase("tokens")){
-    globalMysqlClient->ClientSchema_= newSession.getSchema("tokens");
+  if(newSession.getSchema("tokens")){
+    globalMysqlClient->ClientSchema_= &newSession.getSchema("tokens");
   } else {
     throw ErrorAndLog("ClientDatabase could not be set");
   }
-  try:// Table Schema::getTable(name,check_exists) throw_error("Table does not exist") or return Table
+  try{// Table Schema::getTable(name,check_exists) throw_error("Table does not exist") or return Table
     mysqlx::Table result = globalMysqlClient->ClientSchema_->getTable("hostname",true);
     globalMysqlClient->ClientTable_= &result;
-  except:
+  }
+  catch(const std::exception&){
     throw ErrorAndLog("ClientTable could not be set");
+  }
 }
 
 MysqlClient* MysqlClient::Get(){
@@ -33,12 +35,12 @@ MysqlClient* MysqlClient::Get(){
 }
 
 std::string* MysqlClient::CreateHostname(){
-  char id = globalMysqlClient->ClientTable_.select("*").execute().count();
+  char id = globalMysqlClient->ClientTable_->select("*").execute().count();
   printf("this is the current id: %c",id);
   std::string hostname = "hostname";
   hostname += "_";
   hostname += id;
-    if(!globalMysqlClient->ClientTable_.insert("hostname").values(hostname).execute()){
+    if(!globalMysqlClient->ClientTable_->insert("hostname").values(hostname).execute()){
       throw ErrorAndLog("Hostname could not be inserted in the DB")
     }
     return &hostname;
