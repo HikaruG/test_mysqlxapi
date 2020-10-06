@@ -15,8 +15,6 @@ WORKDIR /mysql-connector-cpp/build
 RUN cmake ..
 RUN cmake --build . --config Release
 RUN cmake --build . --target install --config Release
-RUN ls /usr/local/mysql/connector-c++-/include/mysqlx
-RUN ls /usr/local/mysql/connector-c++-/lib64/debug
 
 WORKDIR /
 ARG CACHE_DATE=2020-10-06
