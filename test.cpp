@@ -1,5 +1,6 @@
 #include "test.h"
 #include<iostream>
+#include<typeid>
 #include "exception.h"
 
 void MysqlClient::Initialize(){
@@ -13,17 +14,16 @@ void MysqlClient::Initialize(){
     "3306",
     "neukind",
     "Neukind.jp");
-
-  if(mysqlx::Schema clientScheme = newSession.getSchema("tokens")){
-    globalMysqlClient->ClientSchema_=*clientScheme;
+  if(newSession.existsInDatabase("tokens")){
+    globalMysqlClient->ClientSchema_= newSession.getSchema("tokens");
   } else {
     throw ErrorAndLog("ClientDatabase could not be set");
   }
-  if(mysqlx::Table clientTable = globalMysqlClient->ClientSchema_->getTable("hostname",check_exists=true)){
-    globalMysqlClient->ClientTable_= &clientTable;
-  } else {
+  try:// Table Schema::getTable(name,check_exists) throw_error("Table does not exist") or return Table
+    mysqlx::Table result = globalMysqlClient->ClientSchema_->getTable("hostname",true);
+    globalMysqlClient->ClientTable_= &result;
+  except:
     throw ErrorAndLog("ClientTable could not be set");
-  }
 }
 
 MysqlClient* MysqlClient::Get(){
@@ -42,7 +42,7 @@ std::string* MysqlClient::CreateHostname(){
     if(!globalMysqlClient->ClientTable_.insert("hostname").values(hostname).execute()){
       throw ErrorAndLog("Hostname could not be inserted in the DB")
     }
-    return *hostname;
+    return &hostname;
 }
 
 int main(){
