@@ -1,6 +1,6 @@
 #include "test.h"
 
-MysqlClient::Initialize(){
+static void MysqlClient::Initialize(){
   if (globalMysqlClient != nullptr) {
     throw ErrorAndLog(
         "Called MysqlClient::Initialize after MysqlClient was initialized");
@@ -24,11 +24,18 @@ MysqlClient::Initialize(){
   }
 }
 
-std::string MysqlClient::CreateHostname(){
+std::string* MysqlClient::CreateHostname(){
   std::char id = globalMysqlClient->ClientTable_.select("*").execute().count();
   print("this is the current id: %c",id);
-  std::string hostname = "hostname"
-  hostname += "_"
+  std::string hostname = "hostname";
+  hostname += "_";
   hostname += id;
-  return globalMysqlClient->ClientTable_.insert("hostname").values(hostname).execute();
+  try{
+    auto globalMysqlClient->ClientTable_.insert("hostname").values(hostname).execute();
+    return hostname;
+  }
+  catch(const Error &err){
+    cout << "The folloing error occured: " << err << endl;
+    return nullptr;
+  }
 }
