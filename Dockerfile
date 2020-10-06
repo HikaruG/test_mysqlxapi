@@ -15,21 +15,20 @@ WORKDIR /mysql-connector-cpp/build
 RUN cmake ..
 RUN cmake --build . --config Release
 RUN cmake --build . --target install --config Release
-
+RUN ls /usr/local/mysql/connector-c++-/lib64
 
 WORKDIR /
+ARG CACHE_DATE=2020-10-06
 RUN git clone https://github.com/HikaruG/test_mysqlxapi.git
 
 
 WORKDIR /test_mysqlxapi
 RUN git submodule update --init --recursive
-ARG CACHE_DATE=2020-10-06
 RUN mkdir build && cd build && cmake ..
 RUN cd build && cmake -P cmake_install.cmake && ls
 RUN cd build && cat Makefile
 
 WORKDIR /test_mysqlxapi/build
-RUN ls /usr/local/mysql/connector-c++-/lib64
 RUN make
 RUN ls build/
 WORKDIR /
