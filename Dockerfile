@@ -25,7 +25,9 @@ WORKDIR /test_mysqlxapi
 RUN git submodule update --init --recursive
 RUN mkdir build && cd build && cmake ..
 RUN cd build && cmake -P cmake_install.cmake && ls
-RUN cd build && make
+RUN cd build && cat Makefile
+
+
 WORKDIR /test_mysqlxapi
 
 RUN ls build/
