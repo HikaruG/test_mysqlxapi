@@ -28,7 +28,7 @@ RUN git submodule update --init --recursive
 RUN mkdir build && cd build && cmake ..
 
 WORKDIR /test_mysqlxapi
-RUN ls
+RUN ls /build
 WORKDIR /
 RUN rm -rf \
     mysql-connector-cpp
