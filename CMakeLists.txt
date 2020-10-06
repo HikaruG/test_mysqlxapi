@@ -7,6 +7,6 @@ add_subdirectory(third_party/easyloggingpp)
 list(APPEND COMMON_SOURCES ${Easyloggingpp_SOURCE_DIR}/src/easylogging++.cc)
 include_directories(${Easyloggingpp_SOURCE_DIR}/src)
 add_subdirectory(/usr/local/mysql)
-include_directories(/usr/local/mysql/connector-c++-/lib64)
+include_directories(/usr/local/mysql/connector-c++-/include/)
 
 add_executable(test_mysql test.cpp)
