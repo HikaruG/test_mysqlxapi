@@ -24,6 +24,13 @@ void MysqlClient::Initialize(){
   }
 }
 
+MysqlClient* MysqlClient::Get(){
+  if(globalMysqlClient == nullptr){
+    throw ErrorAndLog("Get called before MysqlClient::Initialize");
+  }
+  return globalMysqlClient;
+}
+
 std::string* MysqlClient::CreateHostname(){
   std::char id = globalMysqlClient->ClientTable_.select("*").execute().count();
   print("this is the current id: %c",id);
@@ -38,4 +45,10 @@ std::string* MysqlClient::CreateHostname(){
     cout << "The folloing error occured: " << err << endl;
     return nullptr;
   }
+}
+
+int main(){
+  MysqlClient::Initialize();
+  MysqlClient::Get()->CreateHostname();
+  return 0;
 }
