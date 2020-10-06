@@ -4,9 +4,9 @@ class MysqlClient {
 public:
   static void Initialize();
   static MysqlClient* Get();
-  std::string CreateHostname();
-  std::string GetHostname(std::string& hostname);
-  std::string GetToken(std::string& hostname){
+  std::string* CreateHostname();
+  std::string* GetHostname(std::string& hostname);
+  std::string* GetToken(std::string& hostname);
   bool PutData(std::string& hostname, std::string& token);
 private:
   MysqlClient() = default;

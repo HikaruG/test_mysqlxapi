@@ -1,6 +1,6 @@
 #include "test.h"
 
-static void MysqlClient::Initialize(){
+void MysqlClient::Initialize(){
   if (globalMysqlClient != nullptr) {
     throw ErrorAndLog(
         "Called MysqlClient::Initialize after MysqlClient was initialized");
