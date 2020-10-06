@@ -29,8 +29,7 @@ RUN cd build && cmake -P cmake_install.cmake && ls
 RUN cd build && cat Makefile
 
 WORKDIR /test_mysqlxapi/build
-RUN ls /usr/local/mysql/
-RUN ls /usr/local/mysql/connector-c++-
+RUN ls /usr/local/mysql/connector-c++-/lib64
 RUN make
 RUN ls build/
 WORKDIR /

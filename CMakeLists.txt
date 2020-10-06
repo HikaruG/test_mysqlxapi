@@ -8,6 +8,6 @@ add_subdirectory(third_party/easyloggingpp)
 list(APPEND COMMON_SOURCES ${Easyloggingpp_SOURCE_DIR}/src/easylogging++.cc)
 include_directories(${Easyloggingpp_SOURCE_DIR}/src)
 add_subdirectory(${MYSQL})
-include_directories(${Easyloggingpp_SOURCE_DIR}/connector-c++-)
+include_directories(${Easyloggingpp_SOURCE_DIR}/connector-c++-/lib64)
 
 add_executable(test_mysql test.cpp)
