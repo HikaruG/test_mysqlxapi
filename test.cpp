@@ -1,6 +1,5 @@
 #include "test.h"
 #include<iostream>
-#include<typeid>
 #include "exception.h"
 
 void MysqlClient::Initialize(){
