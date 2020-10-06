@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-find_library(MYSQL mysql HINTS /usr/local/mysql)
+find_library(MYSQL mysql/xdevapi.h HINTS /usr/local/mysql/connector-c++-)
 project(test_mysql)
 
 add_subdirectory(third_party/easyloggingpp)
