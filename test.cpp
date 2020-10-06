@@ -14,12 +14,12 @@ void MysqlClient::Initialize(){
     "neukind",
     "Neukind.jp");
 
-  if(mysqlx::Scheme** clientScheme = newSession.getSchema(globalConfigContext->SqlDbname())){
+  if(mysqlx::Schema* clientScheme = newSession.getSchema("tokens")){
     globalMysqlClient->ClientScheme_=&clientScheme;
   } else {
     throw ErrorAndLog("ClientDatabase could not be set");
   }
-  if(mysqlx::Table clientTable = globalMysqlClient->SqlDbname()->getTable(globalConfigContext->SqlTable())){
+  if(mysqlx::Table clientTable = globalMysqlClient->SqlDbname()->getTable("hostname")){
     globalMysqlClient->ClientTable_= &clientTable;
   } else {
     throw ErrorAndLog("ClientTable could not be set");

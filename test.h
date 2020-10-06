@@ -10,8 +10,8 @@ public:
   bool PutData(std::string& hostname, std::string& token);
 private:
   MysqlClient() = default;
-  static MysqlClient** globalMysqlClient;
-  static mysqlx::Session** ClientSession_;
-  static mysqlx::Schema** ClientScheme_;
+  static MysqlClient* globalMysqlClient; //cant put the ** ?
+  static mysqlx::Session* ClientSession_;//cant put the ** ?
+  static mysqlx::Schema* ClientScheme_;//cant put the ** ?
   static mysqlx::Table& ClientTable_;
-}
+};
