@@ -25,8 +25,7 @@ RUN git clone https://github.com/HikaruG/test_mysqlxapi.git
 
 WORKDIR /test_mysqlxapi
 RUN git submodule update --init --recursive
-RUN mkdir build && cd build && cmake ..
-
+RUN mkdir build && cd build && cmake .. && ./test_mysql
 WORKDIR /
 RUN rm -rf \
     mysql-connector-cpp
