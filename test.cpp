@@ -8,18 +8,11 @@ void MysqlClient::Initialize(mysqlx::Session* newSession){
         "Called MysqlClient::Initialize after MysqlClient was initialized");
   }
   globalMysqlClient = new MysqlClient;
-  if(newSession->getSchema("tokens").existsInDatabase()){
-    globalMysqlClient->ClientSchema_= *newSession->getSchema("tokens");
-  } else {
-    throw ErrorAndLog("ClientDatabase could not be set");
+  if (newSession == nullptr){
+    throw ErrorAndLog(
+        "Mysql session unavaible");
   }
-  try{// Table Schema::getTable(name,check_exists) throw_error("Table does not exist") or return Table
-    mysqlx::Table result = globalMysqlClient->ClientSchema_->getTable("hostname",true);
-    globalMysqlClient->ClientTable_= &result;
-  }
-  catch(const std::exception&){
-    throw ErrorAndLog("ClientTable could not be set");
-  }
+  ClientSession_ = &newSession;
 }
 
 MysqlClient* MysqlClient::Get(){
@@ -30,14 +23,15 @@ MysqlClient* MysqlClient::Get(){
 }
 
 void MysqlClient::CreateHostname(std::string* hostname){
-  char id = globalMysqlClient->ClientTable_->select("*").execute().count();
+  int id = int(globalMysqlClient->newSession->getSchema("tokens").getTable("hostname").select("*").execute().count());
   printf("this is the current id: %c",id);
   std::string newname = "hostname";
+  id ++;
   newname += "_";
-  newname += id;
+  newname += char(id);
     //need to check the return value of a failed execute
   try{
-      globalMysqlClient->ClientTable_->insert("hostname").values(hostname).execute();
+      globalMysqlClient->newSession->getSchema("tokens").getTable("hostname").insert("hostname").values(hostname).execute();
       *hostname=newname;
   }
   catch(const std::exception&){
@@ -50,9 +44,9 @@ int main(){
     "tokenauth.cg2rbsdaibs8.ap-northeast-1.rds.amazonaws.com",
     "3306",
     "neukind",
-    "Neukind.jp");
-  MysqlClient::Initialize(&newSession);
+    "Neukind.jp")
   std::string hostname;
-  MysqlClient::Get()->CreateHostname(hostname);
+  MysqlClient::Initialize(&newSession);
+  MysqlClient::Get()->CreateHostname(&hostname);
   return 0;
 }
