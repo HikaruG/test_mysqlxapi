@@ -12,7 +12,7 @@ void MysqlClient::Initialize(mysqlx::Session* newSession){
     throw ErrorAndLog(
         "Mysql session unavaible");
   }
-  ClientSession_ = &newSession;
+  ClientSession_ = newSession;
 }
 
 MysqlClient* MysqlClient::Get(){
@@ -23,7 +23,7 @@ MysqlClient* MysqlClient::Get(){
 }
 
 void MysqlClient::CreateHostname(std::string* hostname){
-  int id = int(globalMysqlClient->newSession->getSchema("tokens").getTable("hostname").select("*").execute().count());
+  int id = int(globalMysqlClient->ClientSession_->getSchema("tokens").getTable("hostname").select("*").execute().count());
   printf("this is the current id: %c",id);
   std::string newname = "hostname";
   id ++;
@@ -31,7 +31,7 @@ void MysqlClient::CreateHostname(std::string* hostname){
   newname += char(id);
     //need to check the return value of a failed execute
   try{
-      globalMysqlClient->newSession->getSchema("tokens").getTable("hostname").insert("hostname").values(hostname).execute();
+      globalMysqlClient->ClientSession_->getSchema("tokens").getTable("hostname").insert("hostname").values(hostname).execute();
       *hostname=newname;
   }
   catch(const std::exception&){
@@ -44,7 +44,7 @@ int main(){
     "tokenauth.cg2rbsdaibs8.ap-northeast-1.rds.amazonaws.com",
     "3306",
     "neukind",
-    "Neukind.jp")
+    "Neukind.jp");
   std::string hostname;
   MysqlClient::Initialize(&newSession);
   MysqlClient::Get()->CreateHostname(&hostname);
