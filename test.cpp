@@ -9,7 +9,7 @@ void MysqlClient::Initialize(mysqlx::Session* newSession){
   }
   globalMysqlClient = new MysqlClient;
   if(newSession->getSchema("tokens").existsInDatabase()){
-    globalMysqlClient->ClientSchema_= &newSession->getSchema("tokens");
+    globalMysqlClient->ClientSchema_= *newSession->getSchema("tokens");
   } else {
     throw ErrorAndLog("ClientDatabase could not be set");
   }
@@ -36,13 +36,13 @@ void MysqlClient::CreateHostname(std::string* hostname){
   newname += "_";
   newname += id;
     //need to check the return value of a failed execute
-    try{
-      globalMysqlClient->ClientTable_->insert("hostname").values(hostname).execute());
+  try{
+      globalMysqlClient->ClientTable_->insert("hostname").values(hostname).execute();
       *hostname=newname;
-    }
-    catch(const std::exception&){
-      throw ErrorAndLog("Hostname could not be inserted in the DB");
-    }
+  }
+  catch(const std::exception&){
+    throw ErrorAndLog("Hostname could not be inserted in the DB");
+  }
 }
 
 int main(){
@@ -51,7 +51,8 @@ int main(){
     "3306",
     "neukind",
     "Neukind.jp");
-  MysqlClient::Initialize(*newSession);
-  MysqlClient::Get()->CreateHostname();
+  MysqlClient::Initialize(&newSession);
+  std::string hostname;
+  MysqlClient::Get()->CreateHostname(hostname);
   return 0;
 }
