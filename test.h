@@ -2,7 +2,7 @@
 
 class MysqlClient {
 public:
-  static void Initialize();
+  static void Initialize(mysqlx::Session* newSession);
   static MysqlClient* Get();
   void CreateHostname(std::string *hostname);
   std::string* GetHostname(std::string& hostname);
